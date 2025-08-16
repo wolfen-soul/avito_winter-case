@@ -1,0 +1,40 @@
+version: '3.8'
+
+volumes:
+  pgdata:
+
+services:
+  postgres:
+    image: docker.io/library/postgres:16-alpine
+    container_name: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - avito_net
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: avito_app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${BACKEND_PORT}:8080"
+    networks:
+      - avito_net
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  avito_net:
+    name: avito_network
+    driver: bridge
+    attachable: true
