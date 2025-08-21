@@ -37,4 +37,3 @@ networks:
   avito_net:
     name: avito_network
     driver: bridge
-    attachable: true
