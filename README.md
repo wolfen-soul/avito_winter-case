@@ -41,7 +41,7 @@ Copy received JWT token and set it: `Authorization -> Bearer token`
 #### For authorized users:
 `GET /info` - receive info about authorized user
 
-`POST /buy/item?=quantity=number` - **FIXME**
+`POST /buy/item?=quantity=number` - buy certain quantity of items ("item" should be replaced with the name of the item, number with certain amount to buy)
 
 `POST /sendCoin` - make a transaction to another registered user
 
